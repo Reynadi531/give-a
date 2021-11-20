@@ -36,9 +36,7 @@ export default async function handler(req, res) {
                 const pageSize = 10
                 let skips = 0
 
-                if (page === undefined) {
-                    skips = 0
-                } else {
+                if (page !== undefined) {
                     skips = pageSize * (page - 1)
                 }
 
