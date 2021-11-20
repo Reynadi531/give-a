@@ -4,12 +4,12 @@ const ProductSchema = new mongoose.Schema(
     {
         nameProduct: { type: String, required: true },
         description: { type: String, required: true },
-        views: { type: Number, required: true, default: 0 },
+        views: { type: Number, default: 0 },
         thumbnail: { type: String, required: true },
-        category: { type: Array, required: true },
-        image: { type: Array, required: true },
-        location: { type: Object, required: true },
-        sosmed: { type: Object, required: true },
+        category: { type: Array, default: [] },
+        image: { type: Array, default: [] },
+        location: { type: Object, default: {} },
+        sosmed: { type: Object, default: {} },
         author: { type: Object, required: true }
     },
     { timestamps: true }

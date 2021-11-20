@@ -1,4 +1,4 @@
-import { withPageAuthRequired } from '@auth0/nextjs-auth0';
+import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Main from '../../components/layout/Main'
 import {
     Container,
@@ -18,44 +18,60 @@ import Product from '../../components/Product'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
 
-const fetcher = (url) => fetch(url).then((res) => res.json())
+const fetcher = url => fetch(url).then(res => res.json())
 
 export default function Profile({ user }) {
-    const { data: {data}, error } = useSWR('/api/product', fetcher)
+    const {
+        data: { data },
+        error
+    } = useSWR('/api/product', fetcher)
     const router = useRouter()
-    
 
     return (
-        <> 
-        {!error ? 
-            <Main>
-                <Container my='4' maxW='container.xl'>
-                    <Flex>
-                        <Box>
-                            <Button rounded='2xl' size='md' backgroundColor='main.100'><AiOutlinePlus /></Button>
-                        </Box>
-                        <Spacer />
-                        <Box>
-                            <Button rounded='2xl' size='md' backgroundColor='main.100'><AiOutlineSearch /></Button>
-                        </Box>
-                    </Flex>
-                    <Center my='4'>
-                        <VStack>
+        <>
+            {!error ? (
+                <Main>
+                    <Container my="4" maxW="container.xl">
+                        <Flex>
+                            <Box>
+                                <Button
+                                    rounded="2xl"
+                                    size="md"
+                                    backgroundColor="main.100"
+                                >
+                                    <AiOutlinePlus />
+                                </Button>
+                            </Box>
+                            <Spacer />
+                            <Box>
+                                <Button
+                                    rounded="2xl"
+                                    size="md"
+                                    backgroundColor="main.100"
+                                >
+                                    <AiOutlineSearch />
+                                </Button>
+                            </Box>
+                        </Flex>
+                        <Center my="4">
                             <VStack>
-                                <Avatar size='2xl' src={user.picture} />
-                                <Text fontSize='xl' fontWeight='medium'>{user.nickname}</Text>
-                            </VStack>
-                            <HStack spacing='12'>
                                 <VStack>
-                                    <Text>Product</Text>
-                                    <Text color='gray.400'>0</Text>
+                                    <Avatar size="2xl" src={user.picture} />
+                                    <Text fontSize="xl" fontWeight="medium">
+                                        {user.nickname}
+                                    </Text>
                                 </VStack>
-                                <Divider orientation="vertical" />
-                                <VStack>
-                                    <Text>Followers</Text>
-                                    <Text color='gray.400'>0</Text>
-                                </VStack>
-                            </HStack>
+                                <HStack spacing="12">
+                                    <VStack>
+                                        <Text>Product</Text>
+                                        <Text color="gray.400">0</Text>
+                                    </VStack>
+                                    <Divider orientation="vertical" />
+                                    <VStack>
+                                        <Text>Followers</Text>
+                                        <Text color="gray.400">0</Text>
+                                    </VStack>
+                                </HStack>
 
                                 <HStack>
                                     {data.length > 0 &&
@@ -74,7 +90,9 @@ export default function Profile({ user }) {
                                                         minW="200px"
                                                         author={name}
                                                         desc={description}
-                                                        productName={nameProduct}
+                                                        productName={
+                                                            nameProduct
+                                                        }
                                                         thumb={thumbnail}
                                                         key={i}
                                                     />
@@ -82,14 +100,15 @@ export default function Profile({ user }) {
                                             }
                                         )}
                                 </HStack>
-                        </VStack>
-                    </Center>
-                </Container>
-            </Main>
-        : router.push('/404')}
+                            </VStack>
+                        </Center>
+                    </Container>
+                </Main>
+            ) : (
+                router.push('/404')
+            )}
         </>
     )
 }
 
-export const getServerSideProps = withPageAuthRequired();
-
+export const getServerSideProps = withPageAuthRequired()
