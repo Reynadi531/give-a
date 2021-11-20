@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import Main from '../components/layout/Main'
 import {
     Container,
