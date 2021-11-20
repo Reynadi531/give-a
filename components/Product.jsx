@@ -12,9 +12,9 @@ import {
     Container
 } from '@chakra-ui/react'
 
-function Product({ minW, author, productName, thumb, desc }) {
+function Product({ minW, maxW, author, productName, thumb, desc }) {
     return (
-        <VStack w="100%" cursor="pointer" minW={minW}>
+        <VStack w="100%" cursor="pointer" minW={minW} maxW={maxW}>
             <Container pos="relative" p={0}>
                 <AspectRatio ratio={1 / 1} w="100%" userSelect="none">
                     <Image

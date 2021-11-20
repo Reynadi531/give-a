@@ -32,7 +32,7 @@ function Header() {
                 rounded="full"
                 icon={<FiPlus />}
             />
-            <Menu m={0}>
+            <Menu>
                 <MenuButton
                     as={Avatar}
                     aria-label="Profile"
@@ -43,11 +43,7 @@ function Header() {
                 />
                 <MenuList>
                     {!user ? (
-                        <MenuItem
-                            icon={<FiKey />}
-                            as={'a'}
-                            href="/api/auth/login"
-                        >
+                        <MenuItem icon={<FiKey />} href="/api/auth/login">
                             Login
                         </MenuItem>
                     ) : (
