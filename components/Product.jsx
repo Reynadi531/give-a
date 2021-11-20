@@ -12,13 +12,13 @@ import {
     Container
 } from '@chakra-ui/react'
 
-function Product(props) {
+function Product({ minW, author, productName, thumb, desc }) {
     return (
-        <VStack w="100%" cursor="pointer" {...props}>
+        <VStack w="100%" cursor="pointer" minW={minW}>
             <Container pos="relative" p={0}>
                 <AspectRatio ratio={1 / 1} w="100%" userSelect="none">
                     <Image
-                        src="https://id-live-05.slatic.net/p/4494148e37b058d0c791d9fd9a59b151.jpg_720x720q80.jpg_.webp"
+                        src={thumb}
                         rounded="md"
                         alt="baju"
                         pointerEvents="none"
@@ -41,7 +41,7 @@ function Product(props) {
                             textOverflow: 'ellipsis'
                         }}
                     >
-                        Baju
+                        {productName}
                     </Text>
                     <Text
                         color="white"
@@ -51,13 +51,13 @@ function Product(props) {
                             textOverflow: 'ellipsis'
                         }}
                     >
-                        Yep ini adalah sebuah baju
+                        {desc}
                     </Text>
                 </Container>
             </Container>
             <HStack w="full" justifyItems="flex-start" py="0.5em">
                 <Avatar size="xs" />
-                <Text fontSize="sm">Username</Text>
+                <Text fontSize="sm">{author}</Text>
             </HStack>
         </VStack>
     )

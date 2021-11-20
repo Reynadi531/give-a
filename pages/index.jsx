@@ -1,89 +1,27 @@
-/* eslint-disable */
-
 import Main from '../components/layout/Main'
 import {
     Container,
-    Input,
-    FormControl,
     Button,
     Text,
-    InputGroup,
-    InputLeftElement,
     Heading,
     HStack,
     VStack,
-    Menu,
-    MenuButton,
-    MenuList,
-    MenuItem,
-    Avatar,
     Image,
     Box,
     SimpleGrid
 } from '@chakra-ui/react'
-import { FiSearch, FiKey, FiLogOut, FiUser } from 'react-icons/fi'
+
 import { useUser } from '@auth0/nextjs-auth0'
 import Product from '../components/Product'
+import Header from '../components/index/Header'
+import axios from 'axios'
 
-export default function Home() {
-    const { user, isLoading } = useUser()
-    if (isLoading) return null
-
-    const uploadHandler = () => {
-        if (!user) return (location.href = '/api/auth/login')
-    }
-
+export default function Home({ data }) {
+    const { user } = useUser()
+    console.log(data)
     return (
         <Main>
-            <HStack px={[2, 16]} py={4} spacing={[2, 6]}>
-                <InputGroup>
-                    <InputLeftElement pointerEvents="none" rounded="full">
-                        <FiSearch />
-                    </InputLeftElement>
-                    <Input
-                        placeholder="Baju anak, daster, topi ....."
-                        borderRadius={['sm', 'full']}
-                    />
-                </InputGroup>
-                <Button
-                    colorScheme="yellow"
-                    color="white"
-                    onClick={uploadHandler}
-                    rounded="full"
-                >
-                    +
-                </Button>
-                <Menu>
-                    <MenuButton
-                        as={Avatar}
-                        aria-label="Profile"
-                        size="md"
-                        src={user?.picture}
-                    />
-                    <MenuList>
-                        {!user ? (
-                            <MenuItem
-                                icon={<FiKey />}
-                                as={'a'}
-                                href="/api/auth/login"
-                            >
-                                Login
-                            </MenuItem>
-                        ) : (
-                            <>
-                                <MenuItem icon={<FiUser />}>Profile</MenuItem>
-                                <MenuItem
-                                    icon={<FiLogOut />}
-                                    as={'a'}
-                                    href="/api/auth/logout"
-                                >
-                                    Logout
-                                </MenuItem>
-                            </>
-                        )}
-                    </MenuList>
-                </Menu>
-            </HStack>
+            <Header />
             <HStack
                 px={[2, 12]}
                 flexDir={['column-reverse', null, 'row']}
@@ -107,10 +45,29 @@ export default function Home() {
                 </VStack>
             </HStack>
             <HStack spacing={3} px={4} my="1em" overflow="auto">
-                <Product minW="200px" />
-                <Product minW="200px" />
-                <Product minW="200px" />
-                <Product minW="200px" />
+                {data.length > 0 &&
+                    data.map(
+                        (
+                            {
+                                author: { name },
+                                description,
+                                nameProduct,
+                                thumbnail
+                            },
+                            i
+                        ) => {
+                            return (
+                                <Product
+                                    minW="200px"
+                                    author={name}
+                                    desc={description}
+                                    productName={nameProduct}
+                                    thumb={thumbnail}
+                                    key={i}
+                                />
+                            )
+                        }
+                    )}
             </HStack>
             <SimpleGrid
                 columns={[1, 2, 5]}
@@ -119,11 +76,29 @@ export default function Home() {
                 my="1em"
                 overflow="auto"
             >
-                <Product />
-                <Product />
-                <Product />
-                <Product />
-                <Product />
+                {data.length > 0 &&
+                    data.map(
+                        (
+                            {
+                                author: { name },
+                                description,
+                                nameProduct,
+                                thumbnail
+                            },
+                            i
+                        ) => {
+                            return (
+                                <Product
+                                    minW="200px"
+                                    author={name}
+                                    desc={description}
+                                    productName={nameProduct}
+                                    thumb={thumbnail}
+                                    key={i}
+                                />
+                            )
+                        }
+                    )}
             </SimpleGrid>
             <Container centerContent my={6}>
                 <Button colorScheme="yellow" color="white">
@@ -132,4 +107,10 @@ export default function Home() {
             </Container>
         </Main>
     )
+}
+export async function getServerSideProps() {
+    const { data } = await axios.get('http://localhost:3000/api/product')
+    return {
+        props: data
+    }
 }
