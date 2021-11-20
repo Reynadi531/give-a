@@ -20,7 +20,7 @@ function Product({ minW, author, productName, thumb, desc }) {
                     <Image
                         src={thumb}
                         rounded="md"
-                        alt="baju"
+                        alt={productName}
                         pointerEvents="none"
                     />
                 </AspectRatio>
@@ -38,7 +38,8 @@ function Product({ minW, author, productName, thumb, desc }) {
                         sx={{
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
-                            textOverflow: 'ellipsis'
+                            textOverflow: 'ellipsis',
+                            textTransform: 'capitalize'
                         }}
                     >
                         {productName}
@@ -48,7 +49,8 @@ function Product({ minW, author, productName, thumb, desc }) {
                         sx={{
                             whiteSpace: 'nowrap',
                             overflow: 'hidden',
-                            textOverflow: 'ellipsis'
+                            textOverflow: 'ellipsis',
+                            textTransform: 'capitalize'
                         }}
                     >
                         {desc}

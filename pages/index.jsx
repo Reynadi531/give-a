@@ -18,7 +18,6 @@ import axios from 'axios'
 
 export default function Home({ data }) {
     const { user } = useUser()
-    console.log(data)
     return (
         <Main>
             <Header />
@@ -109,7 +108,9 @@ export default function Home({ data }) {
     )
 }
 export async function getServerSideProps() {
-    const { data } = await axios.get('http://localhost:3000/api/product')
+    const { data } = await axios.get(
+        `${process.env.PROD_URL || 'http://localhost:3000'}/api/product`
+    )
     return {
         props: data
     }

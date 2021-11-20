@@ -32,7 +32,7 @@ function Header() {
                 rounded="full"
                 icon={<FiPlus />}
             />
-            <Menu>
+            <Menu m={0}>
                 <MenuButton
                     as={Avatar}
                     aria-label="Profile"
