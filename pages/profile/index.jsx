@@ -30,7 +30,6 @@ export default function Profile({ user }) {
         {!error ? 
             <Main>
                 <Container my='4' maxW='container.xl'>
-                    {console.log(data, error)}
                     <Flex>
                         <Box>
                             <Button rounded='2xl' size='md' backgroundColor='main.100'><AiOutlinePlus /></Button>
