@@ -10,9 +10,9 @@ import {
     Container
 } from '@chakra-ui/react'
 
-function Product() {
+function Product(props) {
     return (
-        <VStack w="100%" cursor="pointer">
+        <VStack w="100%" cursor="pointer" {...props}>
             <Container pos="relative" p={0}>
                 <AspectRatio ratio={1 / 1} w="100%" userSelect="none">
                     <Image
@@ -28,6 +28,7 @@ function Product() {
                     bgColor="rgba(0,0,0,0.4)"
                     rounded="md"
                     p={2}
+                    overflowY="hidden"
                 >
                     <Text
                         color="white"
