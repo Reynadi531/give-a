@@ -16,10 +16,9 @@ function Product() {
             .get(
                 `${
                     process.env.PROD_URL || 'http://localhost:3000'
-                }/api/product?q=${nama}`
+                }/api/product?q=${nama || ''}`
             )
             .then(({ data }) => {
-                console.log(data)
                 setData(data)
             })
     }, [nama])
