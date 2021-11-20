@@ -11,22 +11,24 @@ import {
     Avatar,
     VStack,
     HStack,
-    Divider
+    Divider,
+    SimpleGrid
 } from '@chakra-ui/react'
 import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai'
 import Product from '../../components/Product'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import axios from 'axios'
 
-const fetcher = url => fetch(url).then(res => res.json())
+const fetcher = url => axios.get(url).then(res => res.data)
 
-export default function Profile({ user }) {
-    const {
-        data: { data },
-        error
-    } = useSWR('/api/product', fetcher)
+
+
+export default withPageAuthRequired(function Profile({ user })  {
+    const { data , error } = useSWR('/api/product', fetcher)
     const router = useRouter()
-
+    console.log(data)
+    
     return (
         <>
             {!error ? (
@@ -54,7 +56,7 @@ export default function Profile({ user }) {
                             </Box>
                         </Flex>
                         <Center my="4">
-                            <VStack>
+                            <VStack spacing='6'>
                                 <VStack>
                                     <Avatar size="2xl" src={user.picture} />
                                     <Text fontSize="xl" fontWeight="medium">
@@ -74,31 +76,9 @@ export default function Profile({ user }) {
                                 </HStack>
 
                                 <HStack>
-                                    {data.length > 0 &&
-                                        data.map(
-                                            (
-                                                {
-                                                    author: { name },
-                                                    description,
-                                                    nameProduct,
-                                                    thumbnail
-                                                },
-                                                i
-                                            ) => {
-                                                return (
-                                                    <Product
-                                                        minW="200px"
-                                                        author={name}
-                                                        desc={description}
-                                                        productName={
-                                                            nameProduct
-                                                        }
-                                                        thumb={thumbnail}
-                                                        key={i}
-                                                    />
-                                                )
-                                            }
-                                        )}
+                                    <SimpleGrid columns={3} spacing='6'>
+                                        {data ? <Products data={data.data}/> : <></> }
+                                    </SimpleGrid>
                                 </HStack>
                             </VStack>
                         </Center>
@@ -109,6 +89,36 @@ export default function Profile({ user }) {
             )}
         </>
     )
-}
+})
 
-export const getServerSideProps = withPageAuthRequired()
+const Products = ({ data }) => {
+    return (
+        <>
+            {data &&
+                data.map(
+                    (
+                        {
+                            author: { name },
+                            description,
+                            nameProduct,
+                            thumbnail
+                        },
+                        i
+                    ) => {
+                        return (
+                            <Product
+                                minW="200px"
+                                author={name}
+                                desc={description}
+                                productName={
+                                    nameProduct
+                                }
+                                thumb={thumbnail}
+                                key={i}
+                            />
+                        )
+                    }
+                )}
+        </>
+    )
+}
