@@ -1,5 +1,6 @@
 import dbConnect from '../../../lib/dbConnect'
 import Product from '../../../models/Product'
+const { cloudinary } = require('../../../lib/cloudinary')
 
 export default async function handler(req, res) {
     const { method } = req
@@ -11,6 +12,17 @@ export default async function handler(req, res) {
         // json data {...: ..., ...: ...}
         case 'POST':
             try {
+                const base64thumbnail = req.body.thumbnail
+                const uploadRespone = await cloudinary.uploader.upload(
+                    base64thumbnail,
+                    {
+                        upload_preset: 'give-a',
+                        public_id: `${req.body.author.uuid}:${req.body.nameProduct}`
+                    }
+                )
+
+                if (uploadRespone) req.body.thumbnail = uploadRespone.secure_url
+
                 const product = await new Product(req.body)
                 const saveProduct = await product.save()
 
