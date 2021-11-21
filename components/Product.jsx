@@ -12,7 +12,7 @@ import {
     Container
 } from '@chakra-ui/react'
 
-function Product({ minW, maxW, author, productName, thumb, desc }) {
+function Product({ minW, maxW, author, productName, thumb, desc, photo }) {
     return (
         <VStack w="100%" cursor="pointer" minW={minW} maxW={maxW}>
             <Container pos="relative" p={0}>
@@ -58,7 +58,7 @@ function Product({ minW, maxW, author, productName, thumb, desc }) {
                 </Container>
             </Container>
             <HStack w="full" justifyItems="flex-start" py="0.5em">
-                <Avatar size="xs" />
+                <Avatar size="xs" src={photo} />
                 <Text
                     fontSize="sm"
                     sx={{

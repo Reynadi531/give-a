@@ -78,28 +78,31 @@ export default function Home({ data }) {
                 overflow="auto"
             >
                 {data.length > 0 &&
-                    data.map(
-                        (
-                            {
-                                author: { name },
-                                description,
-                                nameProduct,
-                                thumbnail
-                            },
-                            i
-                        ) => {
-                            return (
-                                <Product
-                                    minW="200px"
-                                    author={name}
-                                    desc={description}
-                                    productName={nameProduct}
-                                    thumb={thumbnail}
-                                    key={i}
-                                />
-                            )
-                        }
-                    )}
+                    data
+                        .slice(0, 10)
+                        .map(
+                            (
+                                {
+                                    author: { name, photo },
+                                    description,
+                                    nameProduct,
+                                    thumbnail
+                                },
+                                i
+                            ) => {
+                                return (
+                                    <Product
+                                        minW="200px"
+                                        author={name}
+                                        photo={photo}
+                                        desc={description}
+                                        productName={nameProduct}
+                                        thumb={thumbnail}
+                                        key={i}
+                                    />
+                                )
+                            }
+                        )}
             </SimpleGrid>
             <Container centerContent my={6}>
                 <Button colorScheme="yellow" color="white">

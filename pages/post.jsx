@@ -18,22 +18,21 @@ function Post() {
     const submitHandler = e => {
         e.preventDefault()
         const { nama, deskripsi, thumb } = e.target
-        const data = new FormData()
-        data.append('nameProduct', nama.value)
-        data.append('description', deskripsi.value)
-        data.append('thumb', thumb.files[0])
-        data.append('author', {
-            name: user?.given_name,
-            photo: user?.picture
-        })
-        axios
-            .post(
-                `${
-                    process.env.PROD_URL || 'http://localhost:3000'
-                }/api/product`,
-                data
-            )
-            .then(res => console.log(res))
+        const reader = new FileReader()
+        reader.readAsDataURL(thumb.files[0])
+        reader.onload = () => {
+            axios
+                .post(`/api/product`, {
+                    nameProduct: nama.value,
+                    description: deskripsi.value,
+                    thumbnail: reader.result,
+                    author: {
+                        name: user?.given_name,
+                        photo: user?.picture
+                    }
+                })
+                .then(res => console.log(res))
+        }
     }
 
     return (

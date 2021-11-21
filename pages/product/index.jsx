@@ -12,15 +12,9 @@ function Product() {
     const { nama } = router.query
 
     useEffect(() => {
-        axios
-            .get(
-                `${
-                    process.env.PROD_URL || 'http://localhost:3000'
-                }/api/product?q=${nama || ''}`
-            )
-            .then(({ data }) => {
-                setData(data)
-            })
+        axios.get(`/api/product?q=${nama || ''}`).then(({ data }) => {
+            setData(data)
+        })
     }, [nama])
 
     return (
@@ -31,7 +25,7 @@ function Product() {
                     data.data.map(
                         (
                             {
-                                author: { name },
+                                author: { name, photo },
                                 description,
                                 nameProduct,
                                 thumbnail
@@ -41,6 +35,7 @@ function Product() {
                             return (
                                 <ProductC
                                     author={name}
+                                    photo={photo}
                                     desc={description}
                                     productName={nameProduct}
                                     thumb={thumbnail}
