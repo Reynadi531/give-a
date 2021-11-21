@@ -86,7 +86,8 @@ export default function Home({ data }) {
                                     author: { name, photo },
                                     description,
                                     nameProduct,
-                                    thumbnail
+                                    thumbnail,
+                                    _id
                                 },
                                 i
                             ) => {
@@ -99,6 +100,7 @@ export default function Home({ data }) {
                                         productName={nameProduct}
                                         thumb={thumbnail}
                                         key={i}
+                                        id={_id}
                                     />
                                 )
                             }

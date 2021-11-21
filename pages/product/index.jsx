@@ -28,7 +28,8 @@ function Product() {
                                 author: { name, photo },
                                 description,
                                 nameProduct,
-                                thumbnail
+                                thumbnail,
+                                _id
                             },
                             i
                         ) => {
@@ -40,6 +41,7 @@ function Product() {
                                     productName={nameProduct}
                                     thumb={thumbnail}
                                     key={i}
+                                    id={_id}
                                 />
                             )
                         }
