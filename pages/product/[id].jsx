@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useRouter } from 'next/router'
 import axios from 'axios'
 import useSWR from 'swr'
@@ -5,7 +7,6 @@ import Header from '../../components/index/Header'
 
 import {
     Container,
-    Flex,
     Box,
     Text,
     VStack,
@@ -55,7 +56,7 @@ const Product = ({ data }) => {
         setCurrentImage(currentImage + 1)
     }
 
-    let loaded = images.map(e => <Image src={e}/>)
+    let loaded = images.map(e => <Image src={e} />)
 
     return (
         <>
@@ -76,7 +77,7 @@ const Product = ({ data }) => {
                     <Box h='full'>
                         <Container maxW='container.sm'>
                             <Text fontWeight='medium' fontSize='xl'>{data.nameProduct}</Text>
-                            <Link href={`/profile/${data.author.uuid}`}>
+                            <Link passHref href={`/profile/${data.author.uuid}`}>
                                 <Button my='2' size='sm' rounded='xl' leftIcon={<Avatar size='xs' src={data.author.photo} />}>
                                     <Text fontWeight='medium' fontSize='sm'>{data.author.name}</Text>
                                 </Button>
