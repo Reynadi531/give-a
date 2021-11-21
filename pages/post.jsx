@@ -1,10 +1,12 @@
-import { useUser } from '@auth0/nextjs-auth0'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { Button } from '@chakra-ui/button'
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
 import { Input } from '@chakra-ui/input'
-import { SimpleGrid } from '@chakra-ui/layout'
+import { GridItem, SimpleGrid } from '@chakra-ui/layout'
 import React, { useEffect } from 'react'
 import axios from 'axios'
+import Main from '../components/layout/Main'
+import Header from '../components/index/Header'
 
 function Post() {
     const { user } = useUser()
@@ -16,41 +18,73 @@ function Post() {
     const submitHandler = e => {
         e.preventDefault()
         const { nama, deskripsi, thumb } = e.target
+        const data = new FormData()
+        data.append('nameProduct', nama.value)
+        data.append('description', deskripsi.value)
+        data.append('thumb', thumb.files[0])
+        data.append('author', {
+            name: user?.given_name,
+            photo: user?.picture
+        })
         axios
             .post(
                 `${
                     process.env.PROD_URL || 'http://localhost:3000'
                 }/api/product`,
-                {
-                    nameProduct: nama.value,
-                    description: deskripsi.value,
-                    thumbnail: thumb.files[0],
-                    author: {
-                        name: user?.given_name,
-                        photo: user?.picture
-                    }
-                }
+                data
             )
             .then(res => console.log(res))
     }
 
     return (
-        <SimpleGrid spacing={4} columns={2} as="form" onSubmit={submitHandler}>
-            <FormControl isRequired>
-                <FormLabel>Nama produk</FormLabel>
-                <Input placeholder="baju bayi, celana..." name="nama" />
-            </FormControl>
-            <FormControl isRequired>
-                <FormLabel>Deskripsi</FormLabel>
-                <Input placeholder="baju bayi, celana..." name="deskripsi" />
-            </FormControl>
-            <FormControl isRequired colSpan={2}>
-                <FormLabel>Deskripsi</FormLabel>
-                <Input type="file" accept="image/*" name="thumb" />
-            </FormControl>
-            <Button type="submit">Post</Button>
-        </SimpleGrid>
+        <Main>
+            <Header />
+            <SimpleGrid
+                spacing={4}
+                columns={[1, 2]}
+                p={4}
+                as="form"
+                onSubmit={submitHandler}
+            >
+                <GridItem>
+                    <FormControl isRequired>
+                        <FormLabel>Nama produk</FormLabel>
+                        <Input
+                            placeholder="baju bayi, celana..."
+                            name="nama"
+                            autoComplete="off"
+                        />
+                    </FormControl>
+                </GridItem>
+                <GridItem>
+                    <FormControl isRequired>
+                        <FormLabel>Deskripsi</FormLabel>
+                        <Input
+                            placeholder="baju bayi, celana..."
+                            name="deskripsi"
+                            autoComplete="off"
+                        />
+                    </FormControl>
+                </GridItem>
+                <GridItem colSpan={[0, 2]}>
+                    <FormControl isRequired>
+                        <FormLabel>Deskripsi</FormLabel>
+                        <Input type="file" accept="image/*" name="thumb" />
+                    </FormControl>
+                </GridItem>
+                <GridItem colSpan={[0, 2]}>
+                    <Button
+                        type="submit"
+                        w="full"
+                        colorScheme="yellow"
+                        color="white"
+                    >
+                        Post
+                    </Button>
+                </GridItem>
+            </SimpleGrid>
+        </Main>
     )
 }
 
-export default Post
+export default withPageAuthRequired(Post)

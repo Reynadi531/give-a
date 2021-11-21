@@ -59,7 +59,17 @@ function Product({ minW, maxW, author, productName, thumb, desc }) {
             </Container>
             <HStack w="full" justifyItems="flex-start" py="0.5em">
                 <Avatar size="xs" />
-                <Text fontSize="sm">{author}</Text>
+                <Text
+                    fontSize="sm"
+                    sx={{
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        textTransform: 'capitalize'
+                    }}
+                >
+                    {author}
+                </Text>
             </HStack>
         </VStack>
     )

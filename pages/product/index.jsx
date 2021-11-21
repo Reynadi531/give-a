@@ -1,4 +1,4 @@
-import { Stack } from '@chakra-ui/layout'
+import { SimpleGrid } from '@chakra-ui/layout'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import Header from '../../components/index/Header'
@@ -26,7 +26,7 @@ function Product() {
     return (
         <Main>
             <Header />
-            <Stack spacing={2} direction="row" p={2}>
+            <SimpleGrid spacing={2} p={2} columns={[2, 4, null, 6]}>
                 {data &&
                     data.data.map(
                         (
@@ -40,7 +40,6 @@ function Product() {
                         ) => {
                             return (
                                 <ProductC
-                                    maxW="200px"
                                     author={name}
                                     desc={description}
                                     productName={nameProduct}
@@ -50,7 +49,7 @@ function Product() {
                             )
                         }
                     )}
-            </Stack>
+            </SimpleGrid>
         </Main>
     )
 }

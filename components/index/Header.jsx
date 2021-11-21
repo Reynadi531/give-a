@@ -20,7 +20,6 @@ function Header() {
     const router = useRouter()
 
     const uploadHandler = () => {
-        if (!user) return (location.href = '/api/auth/login')
         router.push('/post')
     }
     const submitHandler = e => {
@@ -79,7 +78,12 @@ function Header() {
                         </MenuItem>
                     ) : (
                         <>
-                            <MenuItem icon={<FiUser />}>Profile</MenuItem>
+                            <MenuItem
+                                icon={<FiUser />}
+                                onClick={() => router.push('/profile')}
+                            >
+                                Profile
+                            </MenuItem>
                             <MenuItem
                                 icon={<FiLogOut />}
                                 as={'a'}

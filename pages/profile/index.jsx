@@ -3,10 +3,6 @@ import Main from '../../components/layout/Main'
 import {
     Container,
     Text,
-    Button,
-    Spacer,
-    Flex,
-    Box,
     Center,
     Avatar,
     VStack,
@@ -14,53 +10,31 @@ import {
     Divider,
     SimpleGrid
 } from '@chakra-ui/react'
-import { AiOutlinePlus, AiOutlineSearch } from 'react-icons/ai'
 import Product from '../../components/Product'
 import useSWR from 'swr'
 import { useRouter } from 'next/router'
+import Header from '../../components/index/Header'
 import axios from 'axios'
 
 const fetcher = url => axios.get(url).then(res => res.data)
 
-
-
-export default withPageAuthRequired(function Profile({ user })  {
-    const { data , error } = useSWR('/api/product', fetcher)
+export default withPageAuthRequired(function Profile({ user }) {
+    const { data, error } = useSWR('/api/product', fetcher)
     const router = useRouter()
     console.log(data)
-    
+
     return (
         <>
             {!error ? (
                 <Main>
+                    <Header />
                     <Container my="4" maxW="container.xl">
-                        <Flex>
-                            <Box>
-                                <Button
-                                    rounded="2xl"
-                                    size="md"
-                                    backgroundColor="main.100"
-                                >
-                                    <AiOutlinePlus />
-                                </Button>
-                            </Box>
-                            <Spacer />
-                            <Box>
-                                <Button
-                                    rounded="2xl"
-                                    size="md"
-                                    backgroundColor="main.100"
-                                >
-                                    <AiOutlineSearch />
-                                </Button>
-                            </Box>
-                        </Flex>
                         <Center my="4">
-                            <VStack spacing='6'>
+                            <VStack spacing="6">
                                 <VStack>
                                     <Avatar size="2xl" src={user.picture} />
                                     <Text fontSize="xl" fontWeight="medium">
-                                        {user.nickname}
+                                        {user.name}
                                     </Text>
                                 </VStack>
                                 <HStack spacing="12">
@@ -76,8 +50,12 @@ export default withPageAuthRequired(function Profile({ user })  {
                                 </HStack>
 
                                 <HStack>
-                                    <SimpleGrid columns={3} spacing='6'>
-                                        {data ? <Products data={data.data}/> : <></> }
+                                    <SimpleGrid columns={[2, 3]} spacing="4">
+                                        {data ? (
+                                            <Products data={data.data} />
+                                        ) : (
+                                            <></>
+                                        )}
                                     </SimpleGrid>
                                 </HStack>
                             </VStack>
@@ -107,12 +85,9 @@ const Products = ({ data }) => {
                     ) => {
                         return (
                             <Product
-                                minW="200px"
                                 author={name}
                                 desc={description}
-                                productName={
-                                    nameProduct
-                                }
+                                productName={nameProduct}
                                 thumb={thumbnail}
                                 key={i}
                             />

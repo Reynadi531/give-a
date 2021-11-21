@@ -45,28 +45,30 @@ export default function Home({ data }) {
             </HStack>
             <HStack spacing={3} px={4} my="1em" overflow="auto">
                 {data.length > 0 &&
-                    data.map(
-                        (
-                            {
-                                author: { name },
-                                description,
-                                nameProduct,
-                                thumbnail
-                            },
-                            i
-                        ) => {
-                            return (
-                                <Product
-                                    minW="200px"
-                                    author={name}
-                                    desc={description}
-                                    productName={nameProduct}
-                                    thumb={thumbnail}
-                                    key={i}
-                                />
-                            )
-                        }
-                    )}
+                    data
+                        .slice(0, 4)
+                        .map(
+                            (
+                                {
+                                    author: { name },
+                                    description,
+                                    nameProduct,
+                                    thumbnail
+                                },
+                                i
+                            ) => {
+                                return (
+                                    <Product
+                                        minW="200px"
+                                        author={name}
+                                        desc={description}
+                                        productName={nameProduct}
+                                        thumb={thumbnail}
+                                        key={i}
+                                    />
+                                )
+                            }
+                        )}
             </HStack>
             <SimpleGrid
                 columns={[1, 2, 5]}
