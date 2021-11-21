@@ -13,11 +13,21 @@ export default async function handler(req, res) {
         case 'POST':
             try {
                 const base64thumbnail = req.body.thumbnail
+                const date_format = new Date()
+                const nowDate =
+                    date_format.getMonth() +
+                    '-' +
+                    date_format.getDate() +
+                    '-' +
+                    date_format.getFullYear()
+
+                const nowTime = date_format.toTimeString().split(' ')[0]
+
                 const uploadRespone = await cloudinary.uploader.upload(
                     base64thumbnail,
                     {
                         upload_preset: 'give-a',
-                        public_id: `${req.body.author.uuid}:${req.body.nameProduct}`
+                        public_id: `${req.body.author.uuid}:${req.body.nameProduct}:${nowDate}-${nowTime}`
                     }
                 )
 
